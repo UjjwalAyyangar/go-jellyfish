@@ -187,3 +187,11 @@ func _jaro_winkler(ying, yang string, long_tolerance, winkelerize bool) float64 
 
 	return weight
 }
+
+func  Jaro_winkler(s1, s2 string, long_tolerance ...bool) float64 {
+    if len(long_tolerance) > 0 {
+        return _jaro_winkler(s1, s2, long_tolerance[0], true)
+    } else {
+        return _jaro_winkler(s1, s2, true, true)
+    }
+}
