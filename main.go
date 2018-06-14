@@ -6,4 +6,5 @@ import (
 
 func main(){
     fmt.Println(jellyfish.Levenshtein_distance("ABC","ABD"))
+    fmt.Println(jellyfish.Damerau_levenshtein_distance("ABC","ABD"))
 }
