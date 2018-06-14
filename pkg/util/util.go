@@ -24,8 +24,20 @@ func Min(arr ...int) int {
     return mini
 }
 
+func Max(arr ...int) int {
+    maxi := math.MinInt64
+    for _,n := range arr{
+        if n>maxi {
+            maxi = n
+        }
+    }
+    return maxi
+}
+
+
+
 func Generate_arr(min, max int) []int{
-    arr := make([]int, max-min+1)
+    arr := make([]int, max-min)
     for i:= range arr {
         arr[i] = min + i
     }
