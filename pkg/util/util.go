@@ -2,6 +2,7 @@ package util
 
 import(
     "math"
+    "strings"
 )
 
 func Memset(arr []int, v int) {
@@ -34,6 +35,23 @@ func Max(arr ...int) int {
     return maxi
 }
 
+func HasPrefix(s string, arr ...string) bool {
+    for i:=0; i<len(arr); i++{
+        if strings.HasPrefix(s, arr[i]){
+            return true
+        }
+    }
+    return false
+}
+
+func HasSuffix(s string, arr ...string) bool {
+    for i:=0; i<len(arr); i++ {
+        if strings.HasSuffix(s, arr[i]) {
+           return true
+        }
+    }
+    return false
+}
 
 func Abs(v int) int {
     if v <0 {

@@ -1,6 +1,6 @@
 package main
 import (
-    "GoJellyfish/pkg/jellyfish"
+    "go-jellyfish/pkg/jellyfish"
     "fmt"
 )
 
@@ -14,4 +14,5 @@ func main(){
     fmt.Println(jellyfish.Match_rating_codex("Jellyfish"))
     fmt.Println(jellyfish.Soundex("Jellyfish"))
     fmt.Println(jellyfish.Nysiis("JellyFish"))
+    fmt.Println(jellyfish.Metaphone("Jellyfish"))
 }

@@ -1,7 +1,7 @@
 package jellyfish
 
 import (
-	"GoJellyfish/pkg/util"
+	"go-jellyfish/pkg/util"
 	"strings"
 )
 

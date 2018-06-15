@@ -3,6 +3,7 @@ package jellyfish
 import (
     "strings"
     "golang.org/x/text/unicode/norm"
+    "go-jellyfish/pkg/util"
 )
 
 func Soundex(s string) string {
@@ -155,5 +156,149 @@ func Nysiis(s string) string {
     }
 
     return key_s
+
+}
+
+func Metaphone(s string) string {
+    var result []string 
+    s = string(norm.NFKD.Bytes([]byte(s)))
+    s = strings.ToLower(s)
+
+    if util.HasPrefix(s, "kn","gn","pn","ac","wr","ae"){
+        s = s[1:]
+    }
+    i:=0
+    
+    for i< len(s){
+        c := string(s[i])
+        var next string
+        if i < len(s)-1 {
+            next = string(s[i+1])
+        } else {
+            next = "*****"
+        }
+
+        var nextnext string
+        
+        if i < len(s)-2{
+            nextnext = string(s[i+2])
+        } else {
+            nextnext = "*****"
+        }
+
+        if c==next && c !="c" {
+            i+=1
+            continue
+        }
+
+        if strings.Contains("aeiou",c){
+            if i==0 || string(s[i-1]) == " "{
+                result = append(result, c)
+            } 
+        } else if c == "b" {
+            if !(i !=0 && string(s[i-1]) == "m")  || len(next)!=0{
+                result = append(result, "b")
+            }
+        } else if c == "c" {
+            if next =="i" && nextnext == "a" || next == "h" {
+                result = append(result, "x")
+                i+=1
+            } else if strings.Contains("iey",next) {
+                result = append(result,"s")
+            } else {
+                result = append(result, "k")
+            }
+        } else if c=="d" {
+            if next == "g" && strings.Contains("iey",nextnext){
+                result = append(result, "j")
+                i += 2
+            } else {
+                result = append(result , "t")
+            }
+        } else if strings.Contains("fjlmnr",c){
+            result = append(result, c)
+        } else if c == "g" {
+            if strings.Contains("iey",next){
+                result = append(result, "j")
+            } else if !strings.Contains("hn", next) {
+                result = append(result , "k")
+            } else if next == "h" && len(nextnext)!=0 && !strings.Contains("aeiou",nextnext){
+                i+=1
+            }
+        } else if c == "h" {
+            if i==0 || strings.Contains("aeiou",next) || !strings.Contains("aeiou",string(s[i-1])){
+                result = append(result,"h")
+            }
+        } else if c=="k" {
+            if i==0 || string(s[i-1])!= "c" {
+                result = append(result,"k")
+            }
+        } else if c=="p" {
+            if next == "h" {
+                result = append(result , "f")
+                i += 1
+            } else {
+                result = append(result, "p")
+            }
+        } else if c == "q" {
+            result = append(result, "k")
+        } else if c == "s" {
+            if next == "h" {
+                result = append(result, "x")
+                i += 1
+            } else if next == "i" && strings.Contains("oa",nextnext) {
+                result = append(result,"x")
+                i += 2
+            } else {
+                result = append(result , "s")
+            }
+        } else if c =="t"{
+            if next == "i" && strings.Contains("oa",nextnext) {
+                result = append(result, "x")
+            } else if next == "h" {
+                result = append(result, "0")
+            } else if next!="c" || nextnext !="h" {
+                result = append(result, "t")
+            }
+        } else if c == "v" {
+            result = append(result,"f")
+        } else if c == "w" {
+            if i==0 && next =="h"{
+                i+=1
+                if strings.Contains("aeiou",nextnext) || nextnext=="*****" {
+                    result = append(result,"w")
+                }
+            } else if strings.Contains("aeiou",next) || next == "*****" {
+                result = append(result, "w")
+            }
+        } else if c=="x"{
+            if i==0{
+                if next =="h" || (next == "i" && strings.Contains("oa",nextnext)){
+                    result = append(result, "x")
+                } else {
+                    result = append(result, "s")
+                }
+
+            } else {
+                result = append(result, "k")
+                result = append(result, "s")
+            }
+        } else if c =="y" {
+            if strings.Contains("aeiou", next){
+                result = append(result, "y")
+            }
+        } else if c == "z" {
+            result = append(result, "s")
+        } else if c == " "{
+            if len(result) > 0 && result[len(result)-1] != " "{
+                result = append(result," ")
+            }
+        }
+
+        i +=1
+
+    }
+    
+    return strings.ToUpper(strings.Join(result,""))
 
 }
