@@ -27,5 +27,3 @@ Python source is available at http://github.com/jamesturk/jellyfish.
     jellyfish.Levenshtein_distance("jellyfish","smellyfish")
     jellyfish.Match_rating_comparision("Jellyfish","Smellyfish")
 ```
-
-
