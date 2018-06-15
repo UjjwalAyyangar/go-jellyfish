@@ -1,6 +1,6 @@
 package main
 import (
-    "go-jellyfish/pkg/jellyfish"
+    "github.com/UjjwalAyyangar/go-jellyfish/pkg/jellyfish"
     "fmt"
 )
 

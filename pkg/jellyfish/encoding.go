@@ -3,7 +3,7 @@ package jellyfish
 import (
     "strings"
     "golang.org/x/text/unicode/norm"
-    "go-jellyfish/pkg/util"
+    "github.com/UjjwalAyyangar/go-jellyfish/pkg/util"
 )
 
 func Soundex(s string) string {
@@ -82,11 +82,9 @@ func Nysiis(s string) string {
         s = "SSS" + s[3:]
     }
     
-    if strings.HasSuffix(s,"IE") || strings.HasSuffix(s, "EE"){
+    if util.HasSuffix(s,"IE", "EE"){
         s = s[:len(s)-2] + "Y"
-    } else if strings.HasSuffix(s,"DT") || strings.HasSuffix(s,"RT") || 
-    strings.HasSuffix(s,"RD") || strings.HasSuffix(s,"NT") ||
-    strings.HasSuffix(s, "ND") {
+    } else if util.HasSuffix(s,"DT","RT","RD","NT","ND") {
         s = s[:len(s)-2] + "D"
     }
     
@@ -142,15 +140,15 @@ func Nysiis(s string) string {
 
     key_s := strings.Join(key,"")
 
-    if strings.HasSuffix(key_s,"S") && key_s !="S"{
+    if util.HasSuffix(key_s,"S") && key_s !="S"{
         key_s = key_s[:len(key_s)-1]
     }
 
-    if strings.HasSuffix(key_s, "AY") {
+    if util.HasSuffix(key_s, "AY") {
         key_s = key_s[:len(key_s)-2] + "Y"
     }
 
-    if strings.HasSuffix(key_s, "A") && key_s !="A"{
+    if util.HasSuffix(key_s, "A") && key_s !="A"{
         key_s = key_s[:len(key_s)-1]
     
     }

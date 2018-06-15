@@ -1,4 +1,6 @@
-## Golang port of the popular Python Jellyfish library
+## Go port of the popular Python Jellyfish library 
+Written by James Turk and Michael Stephens
+
 It is a library for doing approximate and phonetic matching of strings.
 
 Python source is available at http://github.com/jamesturk/jellyfish.
