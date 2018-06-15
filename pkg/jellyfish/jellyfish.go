@@ -211,3 +211,82 @@ func Hamming_distance(s1, s2 string) int{
     }
     return distance
 }
+
+func match_rating_codex(s string) string{
+    s = strings.ToUpper(s)
+    var codex []byte
+    prev:=byte(' ')
+    for i:=0; i<len(s); i++ {
+        c := s[i]
+        if c!= ' ' && (i ==0 &&  strings.Contains("AEIOU",string(c))) || (c!=prev && !strings.Contains("AEIOU",string(c))) {
+            codex = append(codex,c)
+        }
+    }
+   
+    codex_s := string(codex)
+    if len(codex_s)>6{
+        return codex_s[:3] + codex_s[len(codex_s)-3:len(codex_s)]
+    } else {
+        return codex_s
+    }
+
+}
+
+func Match_rating_comparison(s1, s2 string) (comparable, equivalent bool) {
+    codex1:= match_rating_codex(s1)
+    codex2:= match_rating_codex(s2)
+    len1 := len(codex1)
+    len2 := len(codex2)
+    var res1 []byte
+    var res2 []byte
+    
+    if util.Abs(len1-len2) >=3{
+        return false, false
+    }
+
+    lensum := len1 + len2
+    var min_rating int
+    if lensum <= 4{
+        min_rating = 5
+    } else if lensum <=7 {
+        min_rating = 4
+    } else if lensum <= 11 {
+        min_rating = 3
+    } else {
+        min_rating = 2
+    }
+
+    l_max := util.Max(len1, len2)
+    for i:=0; i< l_max; i++ {
+        if i<len1 && i < len2{
+            if codex1[i] != codex2[i]{
+                res1 = append(res1,codex1[i])
+                res2 = append(res2,codex2[i])
+            }
+        } else if i<len1 && i>=len2{
+            res1 = append(res1, codex1[i])
+        } else if i>=len1 && i<len2 {
+            res2 = append(res2, codex2[i])
+        }
+    }
+
+    unmatched_count1, unmatched_count2 := 0,0
+    codex1_r := util.Reverse(codex1)
+    codex2_r := util.Reverse(codex2)
+
+    for i:=0; i<l_max; i++ {
+        if i<len1 && i<len2{
+            if codex1_r[i] != codex2_r[i]{
+                unmatched_count1+=1
+                unmatched_count2+=1
+            }
+        } else if i<len1 && i>=len2{
+            unmatched_count1+=1
+        } else if i>=len1 && i<len2{
+            unmatched_count2+=1
+        }
+    }
+
+    return true,(6- util.Max(unmatched_count1, unmatched_count2)) >= min_rating
+}
+

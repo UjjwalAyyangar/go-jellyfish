@@ -35,6 +35,21 @@ func Max(arr ...int) int {
 }
 
 
+func Abs(v int) int {
+    if v <0 {
+        return -1*v
+    } else {
+        return v
+    }
+}
+
+func Reverse(s string) string {
+    runes := []rune(s)
+    for i, j:= 0,len(runes)-1; i<j; i, j = i+1, j-1 {
+        runes[i],runes[j] = runes[j],runes[i]
+    }
+    return string(runes)
+}
 
 func Generate_arr(min, max int) []int{
     arr := make([]int, max-min)
@@ -43,3 +58,4 @@ func Generate_arr(min, max int) []int{
     }
     return arr
 }
+
