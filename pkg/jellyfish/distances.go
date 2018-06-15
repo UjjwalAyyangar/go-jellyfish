@@ -212,7 +212,7 @@ func Hamming_distance(s1, s2 string) int{
     return distance
 }
 
-func match_rating_codex(s string) string{
+func Match_rating_codex(s string) string{
     s = strings.ToUpper(s)
     var codex []byte
     prev:=byte(' ')
@@ -233,8 +233,8 @@ func match_rating_codex(s string) string{
 }
 
 func Match_rating_comparison(s1, s2 string) (comparable, equivalent bool) {
-    codex1:= match_rating_codex(s1)
-    codex2:= match_rating_codex(s2)
+    codex1:= Match_rating_codex(s1)
+    codex2:= Match_rating_codex(s2)
     len1 := len(codex1)
     len2 := len(codex2)
     var res1 []byte
