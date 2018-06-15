@@ -30,4 +30,4 @@ Python source is available at http://github.com/jamesturk/jellyfish.
     jellyfish.Match_rating_comparision("Jellyfish","Smellyfish")
 ```
 
-refer to `example.go` for more
+refer to [example.go](https://github.com/UjjwalAyyangar/go-jellyfish/blob/master/examples/example.go)
