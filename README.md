@@ -1,11 +1,11 @@
 ## Go port of the popular Python Jellyfish library 
-Written by James Turk and Michael Stephens
+Written by James Turk and Michael Stephens in Python
 
 It is a library for doing approximate and phonetic matching of strings.
 
 Python source is available at http://github.com/jamesturk/jellyfish.
 
-Will be adding tests for this version soon.
+**Will be adding tests for this version soon.**
 
 ## Included Algorithms
 
