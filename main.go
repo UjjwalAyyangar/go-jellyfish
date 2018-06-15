@@ -13,4 +13,5 @@ func main(){
     fmt.Println(jellyfish.Match_rating_comparison("ABC","LOL"))
     fmt.Println(jellyfish.Match_rating_codex("Jellyfish"))
     fmt.Println(jellyfish.Soundex("Jellyfish"))
+    fmt.Println(jellyfish.Nysiis("JellyFish"))
 }

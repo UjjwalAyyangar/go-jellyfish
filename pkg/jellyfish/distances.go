@@ -198,9 +198,7 @@ func  Jaro_winkler(s1, s2 string, long_tolerance ...bool) float64 {
 
 func Hamming_distance(s1, s2 string) int{
     if len(s2) > len(s1){
-        temp := s1
-        s1 = s2
-        s2 = temp
+        s1,s2 = s2,s1
     }
 
     distance := len(s1) - len(s2)
