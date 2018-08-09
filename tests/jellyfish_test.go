@@ -1,7 +1,7 @@
 package main
 
 import (
-    //"testing"
+    "testing"
     "github.com/UjjwalAyyangar/go-jellyfish/pkg/jellyfish"
     "encoding/csv"
     "os"
@@ -29,7 +29,7 @@ func ReadFile(filePath string) []line{
     return data
 }
 
-func TestLevenshtein_distance(){
+func TestLevenshtein_distance(t *testing.T){
     data := ReadFile("./test_data/levenshtein_distance.csv")
     l := len(data)
     for i:=0; i< l; i++ {
@@ -38,12 +38,8 @@ func TestLevenshtein_distance(){
         output, _ := strconv.Atoi(data[i][2])
         calc_output := jellyfish.Levenshtein_distance(inp1,inp2)
 
-        if calc_output == output{
-            fmt.Println("TRUE")
-            fmt.Println(calc_output,output)
-        }else {
-            fmt.Println("False")
-            fmt.Println(inp1,inp2,output,calc_output)
+        if calc_output != output{
+            t.Errorf("Levenshtein distance failed")
         }
 
     }
@@ -51,7 +47,7 @@ func TestLevenshtein_distance(){
 }
 
 
-func TestJaro_distance(){
+func TestJaro_distance(t *testing.T){
     data := ReadFile("./test_data/jaro_distance.csv")
     l := len(data)
     for i:=0; i< l; i++ {
@@ -60,19 +56,15 @@ func TestJaro_distance(){
         output, _ := strconv.ParseFloat(data[i][2],64)
         calc_output := jellyfish.Jaro_distance(inp1,inp2)
 
-        if calc_output == output{
-            fmt.Println("TRUE")
-            fmt.Println(calc_output,output)
-        }else {
-            fmt.Println("False")
-            fmt.Println(inp1,inp2,output,calc_output)
+        if calc_output != output{
+            t.Errorf("Jaro distance failed")
         }
 
     }
 
 }
 
-func TestJaro_winkler(){
+func TestJaro_winkler(t *testing.T){
     data := ReadFile("./test_data/jaro_winkler.csv")
     l := len(data)
     for i:=0; i< l; i++ {
@@ -81,18 +73,14 @@ func TestJaro_winkler(){
         output, _ := strconv.ParseFloat(data[i][2],64)
         calc_output := jellyfish.Jaro_winkler(inp1,inp2)
 
-        if calc_output == output{
-            fmt.Println("TRUE")
-            fmt.Println(calc_output,output)
-        }else {
-            fmt.Println("False")
-            fmt.Println(inp1,inp2,output,calc_output)
+        if calc_output != output{
+            t.Errorf("Jaro winkler failed")
         }
     }
 
 }
 
-func TestHamming_distance(){
+func TestHamming_distance(t *testing.T){
     data := ReadFile("./test_data/hamming_distance.csv")
     l := len(data)
     for i:=0; i< l; i++ {
@@ -101,18 +89,14 @@ func TestHamming_distance(){
         output, _ := strconv.ParseFloat(data[i][2],64)
         calc_output := jellyfish.Hamming_distance(inp1,inp2)
 
-        if calc_output == int(output){
-            fmt.Println("TRUE")
-            fmt.Println(calc_output,output)
-        }else {
-            fmt.Println("False")
-            fmt.Println(inp1,inp2,output,calc_output)
+        if calc_output != int(output){
+            t.Errorf("Hamming distance failed")
         }
     }
 
 }
 
-func TestMatch_rating_comparison(){
+func TestMatch_rating_comparison(t *testing.T){
     data := ReadFile("./test_data/match_rating.csv")
     l := len(data)
     for i:=0; i< l; i++ {
@@ -121,18 +105,15 @@ func TestMatch_rating_comparison(){
         output, _ := strconv.ParseBool(data[i][2])
         _,calc_output := jellyfish.Match_rating_comparison(inp1,inp2)
 
-        if calc_output == output{
-            fmt.Println("TRUE")
-            fmt.Println(calc_output,output)
-        }else {
-            fmt.Println("FALSE")
-            fmt.Println(inp1,inp2,output,calc_output)
+        if calc_output != output{
+            t.Log("Input: ", inp1, ",", inp2, "Expected:",calc_output," Got:",output)
+            t.Errorf("Match rating failed")
         }
     }
 
 }
 
-func TestDamerau_levenshtein_distance(){
+func TestDamerau_levenshtein_distance(t *testing.T){
     data := ReadFile("./test_data/damerau_levenshtein_distance.csv")
     l := len(data)
     for i:=0; i< l; i++ {
@@ -140,27 +121,58 @@ func TestDamerau_levenshtein_distance(){
         inp1,inp2 := data[i][0],data[i][1]
         output, _ := strconv.Atoi(data[i][2])
         calc_output := jellyfish.Damerau_levenshtein_distance(inp1,inp2)
-        if calc_output == output{
-            fmt.Println("TRUE")
-            fmt.Println(calc_output,output)
-        }else {
-            fmt.Println("FALSE")
-            fmt.Println(inp1,inp2,output,calc_output)
+        if calc_output != output{
+            t.Errorf("Damerau levenshtein distance failed")
+        }
+    }
+
+}
+
+// Testing phonetics
+
+func TestMetaphone(t *testing.T){
+    data :=  ReadFile("./test_data/metaphone.csv")
+    l := len(data)
+    for i:=0; i<l; i++{
+        inp,output := data[i][0], data[i][1]
+        calc_output := jellyfish.Metaphone(inp)
+        if calc_output != output{
+            t.Errorf("Failed to computer the correct metaphone")
         }
     }
 
 }
 
 
+func TestSoundex(t *testing.T){
+    data :=  ReadFile("./test_data/soundex.csv")
+    l := len(data)
+    for i:=0; i<l; i++{
+        inp,output := data[i][0], data[i][1]
+        fmt.Println(inp, output)
+        calc_output := jellyfish.Soundex(inp)
+        if calc_output != output{
+            t.Log("Input: ", inp, "Expected:",calc_output," Got:",output)
+            t.Errorf("Failed to compute the correct soundex")
+        }
+    }
+
+}
 
 
-func main(){
+//func main(){
     //ReadFile("./test_data/levenshtein_distance.csv")
     //TestLevenshtein_distance()
-    TestDamerau_levenshtein_distance()
+    //TestDamerau_levenshtein_distance()
     //TestJaro_distance()
     //TestJaro_winkler()
     //TestHamming_distance()
     //TestMatch_rating_comparison()
 
-}
+    // Phonetics
+    
+    //TestMetaphone()
+    //TestSoundex()
+
+
+//}

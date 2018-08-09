@@ -1,4 +1,6 @@
 ## Go port of the popular Python Jellyfish library 
+[![Build Status](https://travis-ci.com/UjjwalAyyangar/go-jellyfish.svg?token=TQXyyNBwokx5jjkwmmpH&branch=master)](https://travis-ci.com/UjjwalAyyangar/go-jellyfish)
+
 Written by James Turk and Michael Stephens in Python
 
 It is a library for doing approximate and phonetic matching of strings.
