@@ -5,9 +5,9 @@ import (
 )
 
 func main(){
-    fmt.Println(jellyfish.Levenshtein_distance("ABC","ABD"))
+    fmt.Println(jellyfish.Levenshtein_distance("Hello","World"))
     fmt.Println(jellyfish.Damerau_levenshtein_distance("ABC","ABD"))
-    fmt.Println(jellyfish.Jaro_distance("ABC","ABD"))
+    fmt.Println(jellyfish.Jaro_distance("Hello","World"))
     fmt.Println(jellyfish.Jaro_winkler("ABC","ABD"))
     fmt.Println(jellyfish.Hamming_distance("ABC","ABD"))
     fmt.Println(jellyfish.Match_rating_comparison("ABC","LOL"))

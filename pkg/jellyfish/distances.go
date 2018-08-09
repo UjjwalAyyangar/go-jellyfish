@@ -20,11 +20,19 @@ func Levenshtein_distance(s1, s2 string) int {
 			return rows - 1
 		}
 
-		cur := util.Generate_arr(0, cols)
+        cur := make([]int, cols)
+        for i:= range cur {
+            cur[i] = i
+        }
+
 		for r := 1; r < rows; r++ {
 			prev := make([]int, cols)
-			util.Memset(prev, 0)
-			prev[0] = r
+			//util.Memset(prev, 0)
+			//prev = cur
+            copy(prev,cur)
+            //prev[0] = r
+            util.Memset(cur,0)
+            cur[0] = r
 
 			for c := 1; c < cols; c++ {
 				deletion := prev[c] + 1
@@ -114,16 +122,14 @@ func _jaro_winkler(ying, yang string, long_tolerance, winkelerize bool) float64 
 	common_chars := 0
 	for i, ying_ch := range ying {
 		ying_ch := byte(ying_ch)
-		low := i
+		low := 0
 		if i > search_range {
-			low -= search_range
+			low = i - search_range
 		}
-		hi := i
+		hi :=  yang_len - 1
 		if i+search_range < yang_len {
-			hi += search_range
-		} else {
-			hi += yang_len - 1
-		}
+			hi = i + search_range
+		} 
 
 		for j := low; j <= hi; j++ {
 			if yang_flags[j] == 0 && yang[j] == ying_ch {
