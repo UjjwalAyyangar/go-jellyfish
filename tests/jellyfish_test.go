@@ -29,6 +29,12 @@ func ReadFile(filePath string) []line{
     return data
 }
 
+/*
+
+TESTS FOR DISTANCES
+
+*/
+
 func TestLevenshtein_distance(t *testing.T){
     data := ReadFile("./test_data/levenshtein_distance.csv")
     l := len(data)
@@ -128,7 +134,11 @@ func TestDamerau_levenshtein_distance(t *testing.T){
 
 }
 
-// Testing phonetics
+/* 
+
+Testing phonetics
+
+*/
 
 func TestMetaphone(t *testing.T){
     data :=  ReadFile("./test_data/metaphone.csv")
