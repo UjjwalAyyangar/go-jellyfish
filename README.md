@@ -1,5 +1,5 @@
 ## Go port of the popular Python Jellyfish library 
-[![Build Status](https://travis-ci.com/UjjwalAyyangar/go-jellyfish.svg?token=TQXyyNBwokx5jjkwmmpH&branch=master)](https://travis-ci.com/UjjwalAyyangar/go-jellyfish)
+[![Build Status](https://travis-ci.com/UjjwalAyyangar/go-jellyfish.svg?token=TQXyyNBwokx5jjkwmmpH&branch=master)](https://travis-ci.com/UjjwalAyyangar/go-jellyfish) [![Go Report Card](https://goreportcard.com/badge/github.com/UjjwalAyyangar/go-jellyfish)](https://goreportcard.com/report/github.com/UjjwalAyyangar/go-jellyfish)
 
 Written by James Turk and Michael Stephens in Python
 
@@ -24,8 +24,8 @@ Python source is available at http://github.com/jamesturk/jellyfish.
 
 * American Soundex
 * Metaphone
-* NYSIIS (New York State Identification and Intelligence System)
-* Match Rating Codex
+* NYSIIS (New York State Identification and Intelligence System) (Requires Testing)
+* Match Rating Codex (Requires Testing)
 
 ### Example Usage
 
