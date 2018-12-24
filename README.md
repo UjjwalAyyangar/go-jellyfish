@@ -7,8 +7,6 @@ It is a library for doing approximate and phonetic matching of strings.
 
 Python source is available at http://github.com/jamesturk/jellyfish.
 
-**Will be adding tests for this version soon.**
-
 ## Included Algorithms
 
 ### String comparison:
