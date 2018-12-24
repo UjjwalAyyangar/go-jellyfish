@@ -219,17 +219,18 @@ func Hamming_distance(s1, s2 string) int{
 func Match_rating_codex(s string) string{
     s = strings.ToUpper(s)
     var codex []byte
-    prev:=byte(' ')
+    var prev byte
     for i:=0; i<len(s); i++ {
         c := s[i]
         if c!= ' ' && (i ==0 &&  strings.Contains("AEIOU",string(c))) || (c!=prev && !strings.Contains("AEIOU",string(c))) {
             codex = append(codex,c)
         }
+        prev = c
     }
    
     codex_s := string(codex)
     if len(codex_s)>6{
-        return codex_s[:3] + codex_s[len(codex_s)-3:len(codex_s)]
+        return codex_s[:3] + codex_s[len(codex_s)-3:]
     } else {
         return codex_s
     }
@@ -241,15 +242,16 @@ func Match_rating_comparison(s1, s2 string) (comparable, equivalent bool) {
     codex2:= Match_rating_codex(s2)
     len1 := len(codex1)
     len2 := len(codex2)
-    var res1 []byte
-    var res2 []byte
+    
     
     if util.Abs(len1-len2) >=3{
         return false, false
     }
-
+    
+    
     lensum := len1 + len2
     var min_rating int
+    
     if lensum <= 4{
         min_rating = 5
     } else if lensum <=7 {
@@ -260,37 +262,39 @@ func Match_rating_comparison(s1, s2 string) (comparable, equivalent bool) {
         min_rating = 2
     }
 
-    l_max := util.Max(len1, len2)
-    for i:=0; i< l_max; i++ {
-        if i<len1 && i < len2{
-            if codex1[i] != codex2[i]{
-                res1 = append(res1,codex1[i])
-                res2 = append(res2,codex2[i])
-            }
-        } else if i<len1 && i>=len2{
-            res1 = append(res1, codex1[i])
-        } else if i>=len1 && i<len2 {
-            res2 = append(res2, codex2[i])
+    var long string
+    var small string
+    var res_long []byte
+    var res_small []byte
+
+    if len1>len2{
+        long = codex1
+        small = codex2
+    } else {
+        long = codex1
+        small = codex2
+    }
+
+    for i:=0; i< len(long); i++ {
+        if i>=len(small){
+            res_long = append(res_long, long[i])
+        } else if long[i] != small[i] {
+            res_long = append(res_long, long[i])
+            res_small = append(res_small, small[i])
         }
+
     }
 
     unmatched_count1, unmatched_count2 := 0,0
-    codex1_r := util.Reverse(codex1)
-    codex2_r := util.Reverse(codex2)
-
-    for i:=0; i<l_max; i++ {
-        if i<len1 && i<len2{
-            if codex1_r[i] != codex2_r[i]{
-                unmatched_count1+=1
-                unmatched_count2+=1
-            }
-        } else if i<len1 && i>=len2{
-            unmatched_count1+=1
-        } else if i>=len1 && i<len2{
-            unmatched_count2+=1
+    
+    for i:=0; i<len(res_long); i++ {
+        if i>=len(res_small){
+            unmatched_count2++
+        } else if res_long[i] != res_small[i] {
+            unmatched_count1++
+            unmatched_count2++
         }
     }
 
     return true,(6- util.Max(unmatched_count1, unmatched_count2)) >= min_rating
 }
-
