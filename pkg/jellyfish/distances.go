@@ -20,19 +20,19 @@ func Levenshtein_distance(s1, s2 string) int {
 			return rows - 1
 		}
 
-        cur := make([]int, cols)
-        for i:= range cur {
-            cur[i] = i
-        }
+		cur := make([]int, cols)
+		for i := range cur {
+			cur[i] = i
+		}
 
 		for r := 1; r < rows; r++ {
 			prev := make([]int, cols)
 			//util.Memset(prev, 0)
 			//prev = cur
-            copy(prev,cur)
-            //prev[0] = r
-            util.Memset(cur,0)
-            cur[0] = r
+			copy(prev, cur)
+			//prev[0] = r
+			util.Memset(cur, 0)
+			cur[0] = r
 
 			for c := 1; c < cols; c++ {
 				deletion := prev[c] + 1
@@ -126,10 +126,10 @@ func _jaro_winkler(ying, yang string, long_tolerance, winkelerize bool) float64 
 		if i > search_range {
 			low = i - search_range
 		}
-		hi :=  yang_len - 1
+		hi := yang_len - 1
 		if i+search_range < yang_len {
 			hi = i + search_range
-		} 
+		}
 
 		for j := low; j <= hi; j++ {
 			if yang_flags[j] == 0 && yang[j] == ying_ch {
@@ -167,11 +167,11 @@ func _jaro_winkler(ying, yang string, long_tolerance, winkelerize bool) float64 
 	trans_count /= 2
 
 	var weight float64
-    common_chars_f := float64(common_chars)
-    ying_len_f := float64(ying_len)
-    yang_len_f := float64(yang_len)
+	common_chars_f := float64(common_chars)
+	ying_len_f := float64(ying_len)
+	yang_len_f := float64(yang_len)
 	weight = (common_chars_f/ying_len_f + common_chars_f/yang_len_f +
-		                (common_chars_f-trans_count)/common_chars_f) / 3
+		(common_chars_f-trans_count)/common_chars_f) / 3
 
 	if winkelerize && weight > 0.7 && ying_len > 3 && yang_len > 3 {
 		j := util.Min(min_len, 4)
@@ -184,117 +184,115 @@ func _jaro_winkler(ying, yang string, long_tolerance, winkelerize bool) float64 
 			weight += float64(i) * 0.1 * (1.0 - weight)
 		}
 
-		if long_tolerance && min_len > 4 && common_chars_f > float64(i+1) && 
-                                    2*common_chars_f >= float64(min_len+1) {
-			weight += ((1.0 - weight) * (common_chars_f - float64(i) - 1) / 
-                                    (ying_len_f + yang_len_f - float64(i)*2 + 2))
+		if long_tolerance && min_len > 4 && common_chars_f > float64(i+1) &&
+			2*common_chars_f >= float64(min_len+1) {
+			weight += ((1.0 - weight) * (common_chars_f - float64(i) - 1) /
+				(ying_len_f + yang_len_f - float64(i)*2 + 2))
 		}
 	}
 
 	return weight
 }
 
-func  Jaro_winkler(s1, s2 string, long_tolerance ...bool) float64 {
-    if len(long_tolerance) > 0 {
-        return _jaro_winkler(s1, s2, long_tolerance[0], true)
-    } else {
-        return _jaro_winkler(s1, s2, true, true)
-    }
+func Jaro_winkler(s1, s2 string, long_tolerance ...bool) float64 {
+	if len(long_tolerance) > 0 {
+		return _jaro_winkler(s1, s2, long_tolerance[0], true)
+	} else {
+		return _jaro_winkler(s1, s2, true, true)
+	}
 }
 
-func Hamming_distance(s1, s2 string) int{
-    if len(s2) > len(s1){
-        s1,s2 = s2,s1
-    }
+func Hamming_distance(s1, s2 string) int {
+	if len(s2) > len(s1) {
+		s1, s2 = s2, s1
+	}
 
-    distance := len(s1) - len(s2)
-    for i:=0; i<len(s2); i++ {
-        if s2[i] != s1[i]{
-            distance+=1
-        }
-    }
-    return distance
+	distance := len(s1) - len(s2)
+	for i := 0; i < len(s2); i++ {
+		if s2[i] != s1[i] {
+			distance += 1
+		}
+	}
+	return distance
 }
 
-func Match_rating_codex(s string) string{
-    s = strings.ToUpper(s)
-    var codex []byte
-    var prev byte
-    for i:=0; i<len(s); i++ {
-        c := s[i]
-        if c!= ' ' && (i ==0 &&  strings.Contains("AEIOU",string(c))) || (c!=prev && !strings.Contains("AEIOU",string(c))) {
-            codex = append(codex,c)
-        }
-        prev = c
-    }
-   
-    codex_s := string(codex)
-    if len(codex_s)>6{
-        return codex_s[:3] + codex_s[len(codex_s)-3:]
-    } else {
-        return codex_s
-    }
+func Match_rating_codex(s string) string {
+	s = strings.ToUpper(s)
+	var codex []byte
+	var prev byte
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if c != ' ' && (i == 0 && strings.Contains("AEIOU", string(c))) || (c != prev && !strings.Contains("AEIOU", string(c))) {
+			codex = append(codex, c)
+		}
+		prev = c
+	}
+
+	codex_s := string(codex)
+	if len(codex_s) > 6 {
+		return codex_s[:3] + codex_s[len(codex_s)-3:]
+	} else {
+		return codex_s
+	}
 
 }
 
 func Match_rating_comparison(s1, s2 string) (comparable, equivalent bool) {
-    codex1:= Match_rating_codex(s1)
-    codex2:= Match_rating_codex(s2)
-    len1 := len(codex1)
-    len2 := len(codex2)
-    
-    
-    if util.Abs(len1-len2) >=3{
-        return false, false
-    }
-    
-    
-    lensum := len1 + len2
-    var min_rating int
-    
-    if lensum <= 4{
-        min_rating = 5
-    } else if lensum <=7 {
-        min_rating = 4
-    } else if lensum <= 11 {
-        min_rating = 3
-    } else {
-        min_rating = 2
-    }
+	codex1 := Match_rating_codex(s1)
+	codex2 := Match_rating_codex(s2)
+	len1 := len(codex1)
+	len2 := len(codex2)
 
-    var long string
-    var small string
-    var res_long []byte
-    var res_small []byte
+	if util.Abs(len1-len2) >= 3 {
+		return false, false
+	}
 
-    if len1>len2{
-        long = codex1
-        small = codex2
-    } else {
-        long = codex1
-        small = codex2
-    }
+	lensum := len1 + len2
+	var min_rating int
 
-    for i:=0; i< len(long); i++ {
-        if i>=len(small){
-            res_long = append(res_long, long[i])
-        } else if long[i] != small[i] {
-            res_long = append(res_long, long[i])
-            res_small = append(res_small, small[i])
-        }
+	if lensum <= 4 {
+		min_rating = 5
+	} else if lensum <= 7 {
+		min_rating = 4
+	} else if lensum <= 11 {
+		min_rating = 3
+	} else {
+		min_rating = 2
+	}
 
-    }
+	var long string
+	var small string
+	var res_long []byte
+	var res_small []byte
 
-    unmatched_count1, unmatched_count2 := 0,0
-    
-    for i:=0; i<len(res_long); i++ {
-        if i>=len(res_small){
-            unmatched_count2++
-        } else if res_long[i] != res_small[i] {
-            unmatched_count1++
-            unmatched_count2++
-        }
-    }
+	if len1 > len2 {
+		long = codex1
+		small = codex2
+	} else {
+		long = codex1
+		small = codex2
+	}
 
-    return true,(6- util.Max(unmatched_count1, unmatched_count2)) >= min_rating
+	for i := 0; i < len(long); i++ {
+		if i >= len(small) {
+			res_long = append(res_long, long[i])
+		} else if long[i] != small[i] {
+			res_long = append(res_long, long[i])
+			res_small = append(res_small, small[i])
+		}
+
+	}
+
+	unmatched_count1, unmatched_count2 := 0, 0
+
+	for i := 0; i < len(res_long); i++ {
+		if i >= len(res_small) {
+			unmatched_count2++
+		} else if res_long[i] != res_small[i] {
+			unmatched_count1++
+			unmatched_count2++
+		}
+	}
+
+	return true, (6 - util.Max(unmatched_count1, unmatched_count2)) >= min_rating
 }

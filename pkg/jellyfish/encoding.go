@@ -4,13 +4,12 @@ import (
 	"github.com/UjjwalAyyangar/go-jellyfish/pkg/util"
 	"golang.org/x/text/unicode/norm"
 	"strings"
-    "unicode"
+	"unicode"
 )
 
-
 func Soundex(s string) string {
-    //Author - https://github.com/jeffsmith82
-    var code = []byte("01230127022455012623017202")
+	//Author - https://github.com/jeffsmith82
+	var code = []byte("01230127022455012623017202")
 	var sx [4]byte
 	var sxi int
 	var cx, lastCode byte
